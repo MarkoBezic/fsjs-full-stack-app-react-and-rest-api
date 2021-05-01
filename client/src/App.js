@@ -23,8 +23,6 @@ function App() {
         <Route path="/signin" component={UserSignIn} />
         <Route path="/signup" component={UserSignUp} />
         <Route path="/signout" component={UserSignOut} />
-
-        <Route />
       </Switch>
     </Router>
   );
