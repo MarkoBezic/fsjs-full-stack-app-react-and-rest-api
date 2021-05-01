@@ -49,7 +49,11 @@ const CourseDetail = (props) => {
               <div>
                 <h3 className="course--detail--title">Course</h3>
                 <h4 className="course--name">{courses.title}</h4>
-                <p>{`By ${courses.User.firstName} ${courses.User.lastName}`}</p>
+                <p>
+                  {courses.User
+                    ? `By ${courses.User.firstName} ${courses.User.lastName}`
+                    : ""}
+                </p>
 
                 <p>{courses.description}</p>
               </div>
@@ -59,12 +63,12 @@ const CourseDetail = (props) => {
 
                 <h3 className="course--detail--title">Materials Needed</h3>
                 <ul className="course--detail--list">
-                  {courses.materialsNeeded
-                    .split("* ")
-                    .filter((item) => item)
-                    .map((item) => (
-                      <li>{item}</li>
-                    ))}
+                  {courses.materials
+                    ? courses.materialsNeeded
+                        .split("* ")
+                        .filter((item) => item)
+                        .map((item) => <li>{item}</li>)
+                    : ""}
                 </ul>
               </div>
             </div>
