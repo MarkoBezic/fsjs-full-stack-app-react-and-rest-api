@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 const CourseDetail = (props) => {
   const [error, setError] = useState(null);
@@ -30,12 +31,18 @@ const CourseDetail = (props) => {
       <>
         <div className="actions--bar">
           <div className="wrap">
-            <a className="button" href="update-course.html">
+            <Link className="button" to={`/courses/${courses.id}/update`}>
               Update Course
-            </a>
-            <a className="button" href="#">
+            </Link>
+            <Link
+              className="button"
+              onClick={() => {
+                axios.delete(`http://localhost:5000/api/courses/${courses.id}`);
+              }}
+              to="/"
+            >
               Delete Course
-            </a>
+            </Link>
             <a className="button button-secondary" href="index.html">
               Return to List
             </a>
