@@ -1,7 +1,7 @@
 import React from "react";
 
-const UserSignOut = () => {
-  return <div>Hello UserSignOut</div>;
+const UserSignOut = (props) => {
+  return props.history.push("/");
 };
 
 export default UserSignOut;
