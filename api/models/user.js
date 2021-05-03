@@ -12,10 +12,10 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         validate: {
           notNull: {
-            msg: "a first name is required",
+            msg: "A first name is required",
           },
           notEmpty: {
-            msg: "please provide a first name",
+            msg: "Please provide a first name",
           },
         },
       },
@@ -24,10 +24,10 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         validate: {
           notNull: {
-            msg: "a last name is required",
+            msg: "A last name is required",
           },
           notEmpty: {
-            msg: "please provide a last name",
+            msg: "Please provide a last name",
           },
         },
       },
@@ -49,19 +49,30 @@ module.exports = (sequelize, DataTypes) => {
           },
         },
       },
+      confirmedPassword: {
+        type: DataTypes.VIRTUAL,
+        allowNull: false,
+        validate: {
+          notNull: {
+            msg: "Please confirm password",
+          },
+        },
+      },
       password: {
         type: DataTypes.STRING,
         allowNull: false,
         set(val) {
-          const hashedPassword = bcrypt.hashSync(val, 10);
-          this.setDataValue("password", hashedPassword);
+          if (val === this.confirmedPassword) {
+            const hashedPassword = bcrypt.hashSync(val, 10);
+            this.setDataValue("password", hashedPassword);
+          }
         },
         validate: {
           notNull: {
-            msg: "a password is required",
+            msg: "Password must match",
           },
           notEmpty: {
-            msg: "please provide a password",
+            msg: "Please provide a password",
           },
         },
       },
