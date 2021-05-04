@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import Form from "./Form";
 
 const UserSignIn = (props) => {
   const [emailAddress, setEmailAddress] = useState("");
@@ -9,7 +10,6 @@ const UserSignIn = (props) => {
   const change = (e) => {
     const name = e.target.name;
     const value = e.target.value;
-    console.log(name, value);
 
     if (name === "emailAddress") {
       setEmailAddress(value);
@@ -26,13 +26,13 @@ const UserSignIn = (props) => {
         if (user === null) {
           setErrors(["Sign-in was unsucessfull"]);
         } else {
-          props.history.push("/");
+          props.history.push("/authenticated");
           console.log(`SUCCESS! ${emailAddress} is now signed in!`);
         }
       })
       .catch((err) => {
         console.log(err);
-        props.history.push("/");
+        props.history.push("/error");
       });
   };
 
@@ -45,30 +45,32 @@ const UserSignIn = (props) => {
       <div className="form--centered">
         <h2>Sign In</h2>
 
-        <form>
-          <label htmlFor="emailAddress">Email Address</label>
-          <input
-            id="emailAddress"
-            name="emailAddress"
-            type="email"
-            value={emailAddress}
-            onChange={change}
-          />
-          <label htmlFor="password">Password</label>
-          <input
-            id="password"
-            name="password"
-            type="password"
-            value={password}
-            onChange={change}
-          />
-          <button className="button" type="submit" onSubmit={submit}>
-            Sign In
-          </button>
-          <button className="button button-secondary" onClick={cancel}>
-            Cancel
-          </button>
-        </form>
+        <Form
+          cancel={cancel}
+          errors={errors}
+          submit={submit}
+          submitButtonText="Sign In"
+          elements={() => (
+            <>
+              <label htmlFor="emailAddress">Email Address</label>
+              <input
+                id="emailAddress"
+                name="emailAddress"
+                type="email"
+                value={emailAddress}
+                onChange={change}
+              />
+              <label htmlFor="password">Password</label>
+              <input
+                id="password"
+                name="password"
+                type="password"
+                value={password}
+                onChange={change}
+              />
+            </>
+          )}
+        />
 
         <p>
           Don't have a user account? Click here to{" "}
