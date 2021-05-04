@@ -8,11 +8,12 @@ const UserSignIn = (props) => {
 
   const change = (e) => {
     const name = e.target.name;
-    const value = e.tartget.value;
+    const value = e.target.value;
+    console.log(name, value);
 
-    if (name === emailAddress) {
+    if (name === "emailAddress") {
       setEmailAddress(value);
-    } else if (name === password) {
+    } else if (name === "password") {
       setPassword(value);
     }
   };
