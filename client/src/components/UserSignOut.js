@@ -1,7 +1,10 @@
+import { useEffect } from "react";
 import { Redirect } from "react-router";
 
 const UserSignOut = ({ context }) => {
-  context.actions.signOut();
+  useEffect(() => {
+    context.actions.signOut();
+  });
 
   return <Redirect to="/" />;
 };
