@@ -7,6 +7,9 @@ const CourseDetail = (props) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [courses, setCourses] = useState([]);
 
+  const { context } = props;
+  const authUser = context.authenticatedUser;
+
   useEffect(() => {
     axios
       .get(`http://localhost:5000/api/courses/${props.location.state.courseId}`)
@@ -31,18 +34,26 @@ const CourseDetail = (props) => {
       <>
         <div className="actions--bar">
           <div className="wrap">
-            <Link className="button" to={`/courses/${courses.id}/update`}>
-              Update Course
-            </Link>
-            <Link
-              className="button"
-              onClick={() => {
-                axios.delete(`http://localhost:5000/api/courses/${courses.id}`);
-              }}
-              to="/"
-            >
-              Delete Course
-            </Link>
+            {authUser && authUser.id === courses.userId ? (
+              <>
+                <Link className="button" to={`/courses/${courses.id}/update`}>
+                  Update Course
+                </Link>
+                <Link
+                  className="button"
+                  onClick={() => {
+                    axios.delete(
+                      `http://localhost:5000/api/courses/${courses.id}`
+                    );
+                  }}
+                  to="/"
+                >
+                  Delete Course
+                </Link>
+              </>
+            ) : (
+              ""
+            )}
             <a className="button button-secondary" href="index.html">
               Return to List
             </a>

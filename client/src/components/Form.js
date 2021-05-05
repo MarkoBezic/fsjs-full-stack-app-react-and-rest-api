@@ -19,7 +19,7 @@ const Form = (props) => {
     if (errors.length) {
       errorsDisplay = (
         <div className="validation--errors">
-          <h2>Validation Errors</h2>
+          <h3>Validation Errors</h3>
           <div>
             <ul>
               {errors.map((error, i) => (
