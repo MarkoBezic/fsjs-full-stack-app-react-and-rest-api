@@ -12,12 +12,14 @@ export class Provider extends Component {
 
   state = {
     authenticatedUser: Cookies.getJSON("authenticatedUser") || null,
+    password: "",
   };
 
   render() {
-    const { authenticatedUser } = this.state;
+    const { authenticatedUser, password } = this.state;
 
     const value = {
+      password,
       authenticatedUser,
       data: this.data,
       actions: {
@@ -31,10 +33,10 @@ export class Provider extends Component {
   }
 
   signIn = async (emailAddress, password) => {
+    this.setState({ password: password });
     const user = await this.data.getUser(emailAddress, password);
     if (user !== null) {
       this.setState({ authenticatedUser: user });
-      console.log(user);
       Cookies.set("authenticatedUser", JSON.stringify(user), { expires: 1 });
     }
     return user;
