@@ -15,7 +15,7 @@ const CreateCourse = (props) => {
   const submitCreateCourse = () => {
     const { context } = props;
     const authUser = context.authenticatedUser;
-    const { emailAddress } = authUser;
+    const { emailAddress, id } = authUser;
     const { password } = context;
 
     const course = {
@@ -23,7 +23,9 @@ const CreateCourse = (props) => {
       description: courseDescription,
       estimatedTime,
       materialsNeeded,
+      userId: id,
     };
+
     context.data
       .createCourse(course, emailAddress, password)
       .then((errors) => {

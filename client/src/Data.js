@@ -28,7 +28,6 @@ export default class Data {
 
       options.headers["Authorization"] = `Basic ${encodedCredentials}`;
     }
-
     return fetch(url, options);
   }
 
