@@ -15,25 +15,29 @@ import UnhandledError from "./components/UnhandledError";
 import Authenticated from "./components/Authenticated";
 
 import withContext from "./Context";
+import PrivateRoute from "./components/PrivateRoute";
 
+const HeaderWithContext = withContext(Header);
 const UserSignUpWithContext = withContext(UserSignUp);
 const UserSignInWithContext = withContext(UserSignIn);
+const UserSignOutWithContext = withContext(UserSignOut);
+const AuthWithContext = withContext(Authenticated);
 
 function App() {
   return (
     <Router>
       <div>
-        <Header />
+        <HeaderWithContext />
 
         <Switch>
           <Route exact path="/" component={Courses} />
-          <Route path="/courses/create" component={CreateCourse} />
-          <Route path="/courses/:id/update" component={UpdateCourse} />
+          <PrivateRoute path="/courses/create" component={CreateCourse} />
+          <PrivateRoute path="/courses/:id/update" component={UpdateCourse} />
           <Route path="/courses/:id" component={CourseDetail} />
           <Route path="/signin" component={UserSignInWithContext} />
           <Route path="/signup" component={UserSignUpWithContext} />
-          <Route path="/signout" component={UserSignOut} />
-          <Route path="/Authenticated" component={Authenticated} />
+          <Route path="/signout" component={UserSignOutWithContext} />
+          <PrivateRoute path="/authenticated" component={AuthWithContext} />
           <Route path="/error" component={UnhandledError} />
           <Route path="/forbidden" component={Forbidden} />
           <Route path="/notfound" component={NotFound} />
