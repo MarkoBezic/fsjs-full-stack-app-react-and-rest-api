@@ -60,13 +60,6 @@ const CreateCourse = (props) => {
     <div>
       <div className="wrap">
         <h2>Create Course</h2>
-        {/* <div className="validation--errors">
-          <h3>Validation Errors</h3>
-          <ul>
-            <li>Please provide a value for "Title"</li>
-            <li>Please provide a value for "Description"</li>
-          </ul>
-        </div> */}
         <Form
           cancel={cancel}
           errors={errors}

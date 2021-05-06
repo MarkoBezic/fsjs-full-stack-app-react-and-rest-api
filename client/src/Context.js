@@ -13,24 +13,31 @@ export class Provider extends Component {
   state = {
     authenticatedUser: Cookies.getJSON("authenticatedUser") || null,
     password: "",
+    course: "",
   };
 
   render() {
-    const { authenticatedUser, password } = this.state;
+    const { authenticatedUser, password, course } = this.state;
 
     const value = {
+      course,
       password,
       authenticatedUser,
       data: this.data,
       actions: {
         signIn: this.signIn,
         signOut: this.signOut,
+        courseToUpdate: this.setStateOfCourseToUpdate,
       },
     };
     return (
       <Context.Provider value={value}>{this.props.children}</Context.Provider>
     );
   }
+
+  setStateOfCourseToUpdate = (course) => {
+    this.setState({ course });
+  };
 
   signIn = async (emailAddress, password) => {
     const user = await this.data.getUser(emailAddress, password);

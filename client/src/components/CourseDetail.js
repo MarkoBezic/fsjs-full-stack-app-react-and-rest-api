@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 const CourseDetail = (props) => {
   const [error, setError] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
-  const [courses, setCourses] = useState([]);
+  const [course, setCourse] = useState([]);
 
   const { context } = props;
   const authUser = context.authenticatedUser;
@@ -16,7 +16,7 @@ const CourseDetail = (props) => {
       .then(
         (result) => {
           setIsLoaded(true);
-          setCourses(result.data);
+          setCourse(result.data);
         },
         (error) => {
           setIsLoaded(true);
@@ -34,16 +34,20 @@ const CourseDetail = (props) => {
       <>
         <div className="actions--bar">
           <div className="wrap">
-            {authUser && authUser.id === courses.userId ? (
+            {authUser && authUser.id === course.userId ? (
               <>
-                <Link className="button" to={`/courses/${courses.id}/update`}>
+                <Link
+                  className="button"
+                  to={`/courses/${course.id}/update`}
+                  onClick={() => context.actions.courseToUpdate(course)}
+                >
                   Update Course
                 </Link>
                 <Link
                   className="button"
                   onClick={() => {
                     axios.delete(
-                      `http://localhost:5000/api/courses/${courses.id}`
+                      `http://localhost:5000/api/courses/${course.id}`
                     );
                   }}
                   to="/"
@@ -66,23 +70,23 @@ const CourseDetail = (props) => {
             <div className="main--flex">
               <div>
                 <h3 className="course--detail--title">Course</h3>
-                <h4 className="course--name">{courses.title}</h4>
+                <h4 className="course--name">{course.title}</h4>
                 <p>
-                  {courses.User
-                    ? `By ${courses.User.firstName} ${courses.User.lastName}`
+                  {course.User
+                    ? `By ${course.User.firstName} ${course.User.lastName}`
                     : ""}
                 </p>
 
-                <p>{courses.description}</p>
+                <p>{course.description}</p>
               </div>
               <div>
                 <h3 className="course--detail--title">Estimated Time</h3>
-                <p>{courses.estimatedTime}</p>
+                <p>{course.estimatedTime}</p>
 
                 <h3 className="course--detail--title">Materials Needed</h3>
                 <ul className="course--detail--list">
-                  {courses.materials
-                    ? courses.materialsNeeded
+                  {course.materials
+                    ? course.materialsNeeded
                         .split("* ")
                         .filter((item) => item)
                         .map((item) => <li>{item}</li>)
