@@ -14,12 +14,25 @@ export class Provider extends Component {
     authenticatedUser: Cookies.getJSON("authenticatedUser") || null,
     password: "",
     course: "",
+    allCourses: "",
+    error: null,
+    isLoaded: false,
   };
 
   render() {
-    const { authenticatedUser, password, course } = this.state;
+    const {
+      authenticatedUser,
+      password,
+      course,
+      allCourses,
+      error,
+      isLoaded,
+    } = this.state;
 
     const value = {
+      allCourses,
+      error,
+      isLoaded,
       course,
       password,
       authenticatedUser,
@@ -28,12 +41,26 @@ export class Provider extends Component {
         signIn: this.signIn,
         signOut: this.signOut,
         courseToUpdate: this.setStateOfCourseToUpdate,
+        getAllCourses: this.getAllCourses,
       },
     };
     return (
       <Context.Provider value={value}>{this.props.children}</Context.Provider>
     );
   }
+
+  getAllCourses = () => {
+    this.data.getCourses().then(
+      (result) => {
+        this.setState({ isLoaded: true });
+        this.setState({ allCourses: result });
+      },
+      (error) => {
+        this.setState({ isLoaded: true });
+        this.setState({ error: error });
+      }
+    );
+  };
 
   setStateOfCourseToUpdate = (course) => {
     this.setState({ course });

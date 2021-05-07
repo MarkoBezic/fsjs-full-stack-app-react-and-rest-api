@@ -26,6 +26,20 @@ const CourseDetail = (props) => {
       );
   }, [props.location.state.courseId]);
 
+  const deleteCourse = () => {
+    const { context } = props;
+
+    context.data
+      .deleteCourse(course.id, authUser.emailAddress, context.password)
+      .then((errors) => {
+        if (errors.length) {
+          setError(errors);
+        } else {
+          console.log(`${course.title} successfully deleted!`);
+        }
+      });
+  };
+
   if (error) {
     return <div>Error: {error.message}</div>;
   } else if (!isLoaded) {
@@ -44,15 +58,7 @@ const CourseDetail = (props) => {
                 >
                   Update Course
                 </Link>
-                <Link
-                  className="button"
-                  onClick={() => {
-                    axios.delete(
-                      `http://localhost:5000/api/courses/${course.id}`
-                    );
-                  }}
-                  to="/"
-                >
+                <Link className="button" onClick={deleteCourse} to="/">
                   Delete Course
                 </Link>
               </>

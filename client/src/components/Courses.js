@@ -1,45 +1,36 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 
-const Courses = () => {
-  const [error, setError] = useState(null);
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [courses, setCourses] = useState([]);
+const Courses = (props) => {
+  const { context } = props;
 
   useEffect(() => {
-    axios.get("http://localhost:5000/api/courses").then(
-      (result) => {
-        setIsLoaded(true);
-        setCourses(result.data);
-      },
-      (error) => {
-        setIsLoaded(true);
-        setError(error);
-      }
-    );
+    context.actions.getAllCourses();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  if (error) {
-    return <div>Error: {error.message}</div>;
-  } else if (!isLoaded) {
+  if (context.error) {
+    return <div>Error: {context.error.message}</div>;
+  } else if (!context.isLoaded) {
     return <div>Loading...</div>;
   } else {
     return (
       <>
         <div className="wrap main--grid">
-          {courses.map((course) => (
-            <Link
-              className="course--module course--link"
-              to={{
-                pathname: `/courses/${course.id}`,
-                state: { courseId: `${course.id}` },
-              }}
-              key={course.id}
-            >
-              <h2 className="course--label">Course</h2>
-              <h3 className="course--title">{course.title}</h3>
-            </Link>
-          ))}
+          {context.allCourses
+            ? context.allCourses.map((course) => (
+                <Link
+                  className="course--module course--link"
+                  to={{
+                    pathname: `/courses/${course.id}`,
+                    state: { courseId: `${course.id}` },
+                  }}
+                  key={course.id}
+                >
+                  <h2 className="course--label">Course</h2>
+                  <h3 className="course--title">{course.title}</h3>
+                </Link>
+              ))
+            : " "}
 
           <Link
             className="course--module course--add--module"
