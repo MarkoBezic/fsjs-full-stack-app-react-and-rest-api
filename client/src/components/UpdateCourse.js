@@ -1,24 +1,49 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Form from "./Form";
 
 const UpdateCourse = (props) => {
   const { context } = props;
-  const courseToUpdate = context.course;
+  const authUser = context.authenticatedUser;
 
+  const [course, setCourse] = useState("");
   const [errors, setErrors] = useState([]);
-  const [courseTitle, setCourseTitle] = useState(courseToUpdate.title);
-  const [courseDescription, setCourseDescription] = useState(
-    courseToUpdate.description
-  );
-  const [estimatedTime, setEstimatedTime] = useState(
-    courseToUpdate.estimatedTime
-  );
-  const [materialsNeeded, setMaterialsNeeded] = useState(
-    courseToUpdate.materialsNeeded
-  );
+  const [courseTitle, setCourseTitle] = useState("");
+  const [courseDescription, setCourseDescription] = useState("");
+  const [estimatedTime, setEstimatedTime] = useState("");
+  const [materialsNeeded, setMaterialsNeeded] = useState("");
+
+  const getRequestedCourse = () => {
+    const courseId = getCourseIdFromBrowser();
+    context.data.getCourse(courseId).then((course) => {
+      if (course) {
+        if (authUser.id === course.userId) {
+          setCourse(course);
+          setCourseTitle(course.title);
+          setCourseDescription(course.description);
+          setEstimatedTime(course.estimatedTime);
+          setMaterialsNeeded(course.materialsNeeded);
+        } else {
+          props.history.push("/forbidden");
+        }
+      } else {
+        props.history.push("/notfound");
+      }
+    });
+  };
+
+  useEffect(() => {
+    getRequestedCourse();
+  }, []);
+
+  const getCourseIdFromBrowser = () => {
+    const url = props.location.pathname;
+    const idFromUrl = url.substring(9, url.length - 7);
+    const result = idFromUrl;
+    return result;
+  };
 
   const cancel = () => {
-    props.history.push("/");
+    props.history.push(`/courses/${course.id}`);
   };
 
   const change = (e) => {
@@ -37,12 +62,11 @@ const UpdateCourse = (props) => {
   };
 
   const submitUpdateCourse = () => {
-    const authUser = context.authenticatedUser;
     const { emailAddress, id } = authUser;
     const { password } = context;
-    const courseId = courseToUpdate.id;
+    const courseId = course.id;
 
-    const course = {
+    const courseUpdated = {
       id: courseId,
       title: courseTitle,
       description: courseDescription,
@@ -52,12 +76,13 @@ const UpdateCourse = (props) => {
     };
 
     context.data
-      .updateCourse(course, emailAddress, password)
+      .updateCourse(courseUpdated, emailAddress, password)
       .then((errors) => {
         if (errors.length) {
           setErrors(errors);
         } else {
-          console.log(`${course.title} has been updated successfully!`);
+          console.log(`${courseUpdated.title} has been updated successfully!`);
+          props.history.push(`/courses/${course.id}`);
         }
       })
       .catch((err) => {
@@ -88,7 +113,11 @@ const UpdateCourse = (props) => {
                     onChange={change}
                   />
 
-                  <p>{`${courseToUpdate.User.firstName} ${courseToUpdate.User.lastName}`}</p>
+                  <p>
+                    {course
+                      ? `${course.User.firstName} ${course.User.lastName}`
+                      : "Loading..."}
+                  </p>
 
                   <label htmlFor="courseDescription">Course Description</label>
                   <textarea

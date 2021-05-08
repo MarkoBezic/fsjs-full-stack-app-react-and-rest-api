@@ -23,7 +23,6 @@ export class Provider extends Component {
     const {
       authenticatedUser,
       password,
-      course,
       allCourses,
       error,
       isLoaded,
@@ -33,14 +32,12 @@ export class Provider extends Component {
       allCourses,
       error,
       isLoaded,
-      course,
       password,
       authenticatedUser,
       data: this.data,
       actions: {
         signIn: this.signIn,
         signOut: this.signOut,
-        courseToUpdate: this.setStateOfCourseToUpdate,
         getAllCourses: this.getAllCourses,
       },
     };
@@ -60,10 +57,6 @@ export class Provider extends Component {
         this.setState({ error: error });
       }
     );
-  };
-
-  setStateOfCourseToUpdate = (course) => {
-    this.setState({ course });
   };
 
   signIn = async (emailAddress, password) => {

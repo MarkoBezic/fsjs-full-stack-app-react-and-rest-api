@@ -67,6 +67,19 @@ export default class Data {
     }
   }
 
+  //@marko todo encorporate this in the UpdateCourse component once you pars the url for the id
+  async getCourse(id) {
+    const response = await this.api(`/courses/${id}`, "GET");
+    if (response.status === 200) {
+      return response.json().then((data) => data);
+    } else if (response.status === 500) {
+      //@marko todo redirect to /error if API returns 500
+      this.props.history.push("/error");
+    } else {
+      throw new Error();
+    }
+  }
+
   async createCourse(course, emailAddress, password) {
     const response = await this.api("/courses", "POST", course, true, {
       emailAddress,

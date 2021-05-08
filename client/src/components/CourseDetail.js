@@ -63,11 +63,7 @@ const CourseDetail = (props) => {
           <div className="wrap">
             {authUser && authUser.id === course.userId ? (
               <>
-                <Link
-                  className="button"
-                  to={`/courses/${course.id}/update`}
-                  onClick={() => context.actions.courseToUpdate(course)}
-                >
+                <Link className="button" to={`/courses/${course.id}/update`}>
                   Update Course
                 </Link>
                 <Link className="button" onClick={deleteCourse} to="/">
