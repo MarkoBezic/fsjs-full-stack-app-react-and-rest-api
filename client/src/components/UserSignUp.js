@@ -56,13 +56,9 @@ const UserSignUp = (props) => {
   };
 
   const signInUser = () => {
-    context.actions.signIn(emailAddress, password).then((user) => {
-      if (user === null) {
-        setErrors(["Sign-in was unsucessfull"]);
-      } else {
-        props.history.push("/authenticated");
-        console.log(`SUCCESS! ${emailAddress} is now signed in!`);
-      }
+    context.actions.signIn(emailAddress, password).then(() => {
+      props.history.push("/authenticated");
+      console.log(`SUCCESS! ${emailAddress} is now signed in!`);
     });
   };
 

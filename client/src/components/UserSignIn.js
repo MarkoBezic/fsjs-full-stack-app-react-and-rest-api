@@ -20,13 +20,16 @@ const UserSignIn = (props) => {
 
   const submit = () => {
     const { context } = props;
+    const { from } = props.location.state || {
+      from: { pathname: "/authenticated" },
+    };
     context.actions
       .signIn(emailAddress, password)
       .then((user) => {
         if (user === null) {
           setErrors(["Sign-in was unsucessfull"]);
         } else {
-          props.history.push("/authenticated");
+          props.history.push(from);
           console.log(`SUCCESS! ${emailAddress} is now signed in!`);
         }
       })

@@ -29,11 +29,11 @@ const CourseDetail = (props) => {
           setError(error);
         }
       );
-  }, [props.history]);
+  }, []);
 
   const getCourseIdFromBrowserAddressBar = () => {
-    const url = window.location.href;
-    const idFromUrl = url.split("").splice(30).join("");
+    const url = props.history.location.pathname;
+    const idFromUrl = url.split("").splice(9).join("");
     const result = idFromUrl;
     return result;
   };
