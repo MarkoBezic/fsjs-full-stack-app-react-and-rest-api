@@ -12,7 +12,7 @@ export class Provider extends Component {
 
   state = {
     authenticatedUser: Cookies.getJSON("authenticatedUser") || null,
-    password: "",
+    password: Cookies.getJSON("password") || null,
     course: "",
     allCourses: "",
     error: null,
@@ -75,13 +75,14 @@ export class Provider extends Component {
       });
 
       Cookies.set("authenticatedUser", JSON.stringify(user), { expires: 1 });
+      Cookies.set("password", password, { expires: 1 });
     }
     return user;
   };
 
   signOut = async () => {
-    this.setState({ authenticatedUser: null });
-    Cookies.remove("authenticatedUser");
+    this.setState({ authenticatedUser: null, password: null });
+    Cookies.remove("authenticatedUser", "password");
   };
 }
 

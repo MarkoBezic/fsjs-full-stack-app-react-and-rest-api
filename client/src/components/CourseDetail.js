@@ -12,19 +12,31 @@ const CourseDetail = (props) => {
   const authUser = context.authenticatedUser;
 
   useEffect(() => {
+    const idFromBrowserAddressBar = getCourseIdFromBrowserAddressBar();
     axios
-      .get(`http://localhost:5000/api/courses/${props.location.state.courseId}`)
+      .get(`http://localhost:5000/api/courses/${idFromBrowserAddressBar}`)
       .then(
         (result) => {
           setIsLoaded(true);
-          setCourse(result.data);
+          if (result.data) {
+            setCourse(result.data);
+          } else {
+            props.history.push("/notfound");
+          }
         },
         (error) => {
           setIsLoaded(true);
           setError(error);
         }
       );
-  }, [props.location.state.courseId]);
+  }, [props.history]);
+
+  const getCourseIdFromBrowserAddressBar = () => {
+    const url = window.location.href;
+    const idFromUrl = url.split("").splice(30).join("");
+    const result = idFromUrl;
+    return result;
+  };
 
   const deleteCourse = () => {
     const { context } = props;
@@ -65,9 +77,9 @@ const CourseDetail = (props) => {
             ) : (
               ""
             )}
-            <a className="button button-secondary" href="index.html">
+            <Link className="button button-secondary" to="/">
               Return to List
-            </a>
+            </Link>
           </div>
         </div>
 

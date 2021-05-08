@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import Form from "./Form.js";
 
 const UserSignUp = (props) => {
+  const { context } = props;
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [emailAddress, setEmailAddress] = useState("");
@@ -28,8 +29,6 @@ const UserSignUp = (props) => {
   };
 
   const submit = () => {
-    const { context } = props;
-
     const user = {
       firstName,
       lastName,
@@ -47,12 +46,24 @@ const UserSignUp = (props) => {
           console.log(
             `${emailAddress} is successfully signed up and authenticated`
           );
+          signInUser();
         }
       })
       .catch((err) => {
         console.log(err);
         props.history.push("/error");
       });
+  };
+
+  const signInUser = () => {
+    context.actions.signIn(emailAddress, password).then((user) => {
+      if (user === null) {
+        setErrors(["Sign-in was unsucessfull"]);
+      } else {
+        props.history.push("/authenticated");
+        console.log(`SUCCESS! ${emailAddress} is now signed in!`);
+      }
+    });
   };
 
   const cancel = () => {
