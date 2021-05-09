@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Form from "./Form";
 
 const UpdateCourse = (props) => {
@@ -12,7 +12,14 @@ const UpdateCourse = (props) => {
   const [estimatedTime, setEstimatedTime] = useState("");
   const [materialsNeeded, setMaterialsNeeded] = useState("");
 
-  const getRequestedCourse = () => {
+  const getCourseIdFromBrowser = useCallback(() => {
+    const url = props.location.pathname;
+    const idFromUrl = url.substring(9, url.length - 7);
+    const result = idFromUrl;
+    return result;
+  }, [props.location.pathname]);
+
+  const getRequestedCourse = useCallback(() => {
     const courseId = getCourseIdFromBrowser();
     context.data.getCourse(courseId).then((course) => {
       if (course) {
@@ -29,18 +36,11 @@ const UpdateCourse = (props) => {
         props.history.push("/notfound");
       }
     });
-  };
+  }, [context.data, authUser.id, props.history, getCourseIdFromBrowser]);
 
   useEffect(() => {
     getRequestedCourse();
-  }, []);
-
-  const getCourseIdFromBrowser = () => {
-    const url = props.location.pathname;
-    const idFromUrl = url.substring(9, url.length - 7);
-    const result = idFromUrl;
-    return result;
-  };
+  }, [getRequestedCourse]);
 
   const cancel = () => {
     props.history.push(`/courses/${course.id}`);
