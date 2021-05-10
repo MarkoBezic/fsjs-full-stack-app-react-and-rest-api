@@ -14,50 +14,24 @@ export class Provider extends Component {
     authenticatedUser: Cookies.getJSON("authenticatedUser") || null,
     password: Cookies.getJSON("password") || null,
     course: "",
-    allCourses: "",
-    error: null,
-    isLoaded: false,
   };
 
   render() {
-    const {
-      authenticatedUser,
-      password,
-      allCourses,
-      error,
-      isLoaded,
-    } = this.state;
+    const { authenticatedUser, password } = this.state;
 
     const value = {
-      allCourses,
-      error,
-      isLoaded,
       password,
       authenticatedUser,
       data: this.data,
       actions: {
         signIn: this.signIn,
         signOut: this.signOut,
-        getAllCourses: this.getAllCourses,
       },
     };
     return (
       <Context.Provider value={value}>{this.props.children}</Context.Provider>
     );
   }
-
-  getAllCourses = () => {
-    this.data.getCourses().then(
-      (result) => {
-        this.setState({ isLoaded: true });
-        this.setState({ allCourses: result });
-      },
-      (error) => {
-        this.setState({ isLoaded: true });
-        this.setState({ error: error });
-      }
-    );
-  };
 
   signIn = async (emailAddress, password) => {
     const user = await this.data.getUser(emailAddress, password);

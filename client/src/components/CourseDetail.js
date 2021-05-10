@@ -1,5 +1,4 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import { Link } from "react-router-dom";
 
@@ -11,32 +10,30 @@ const CourseDetail = (props) => {
   const { context } = props;
   const authUser = context.authenticatedUser;
 
-  useEffect(() => {
-    const idFromBrowserAddressBar = getCourseIdFromBrowserAddressBar();
-    axios
-      .get(`http://localhost:5000/api/courses/${idFromBrowserAddressBar}`)
-      .then(
-        (result) => {
-          setIsLoaded(true);
-          if (result.data) {
-            setCourse(result.data);
-          } else {
-            props.history.push("/notfound");
-          }
-        },
-        (error) => {
-          setIsLoaded(true);
-          setError(error);
-        }
-      );
-  }, []);
-
-  const getCourseIdFromBrowserAddressBar = () => {
+  const getCourseIdFromBrowserAddressBar = useCallback(() => {
     const url = props.history.location.pathname;
     const idFromUrl = url.split("").splice(9).join("");
     const result = idFromUrl;
     return result;
-  };
+  }, [props.history.location.pathname]);
+
+  useEffect(() => {
+    const idFromBrowserAddressBar = getCourseIdFromBrowserAddressBar();
+    context.data.getCourse(idFromBrowserAddressBar).then(
+      (result) => {
+        setIsLoaded(true);
+        if (result) {
+          setCourse(result);
+        } else {
+          props.history.push("/notfound");
+        }
+      },
+      (error) => {
+        setIsLoaded(true);
+        setError(error);
+      }
+    );
+  }, [getCourseIdFromBrowserAddressBar, props.history, context.data]);
 
   const deleteCourse = () => {
     const { context } = props;

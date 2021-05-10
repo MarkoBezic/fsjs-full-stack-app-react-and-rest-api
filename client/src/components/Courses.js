@@ -1,23 +1,37 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 const Courses = (props) => {
   const { context } = props;
 
+  const [error, setError] = useState(null);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [courses, setCourses] = useState([]);
+
   useEffect(() => {
-    context.actions.getAllCourses();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-  if (context.error) {
-    return <div>Error: {context.error.message}</div>;
-  } else if (!context.isLoaded) {
+    context.data.getCourses().then(
+      (result) => {
+        setIsLoaded(true);
+        setCourses(result);
+      },
+      (error) => {
+        setIsLoaded(true);
+        setError(error);
+        console.log(error);
+      }
+    );
+  }, [context.data]);
+
+  if (error) {
+    return <div>Error: Marko</div>;
+  } else if (!isLoaded) {
     return <div>Loading...</div>;
   } else {
     return (
       <>
         <div className="wrap main--grid">
-          {context.allCourses
-            ? context.allCourses.map((course) => (
+          {courses
+            ? courses.map((course) => (
                 <Link
                   className="course--module course--link"
                   to={{
