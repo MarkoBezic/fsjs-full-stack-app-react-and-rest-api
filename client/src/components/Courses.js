@@ -4,27 +4,21 @@ import { Link } from "react-router-dom";
 const Courses = (props) => {
   const { context } = props;
 
-  const [error, setError] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [courses, setCourses] = useState([]);
 
   useEffect(() => {
-    context.data.getCourses().then(
-      (result) => {
+    context.data.getCourses().then((result) => {
+      if (result.message == 500) {
+        props.history.push("/error");
+      } else {
         setIsLoaded(true);
         setCourses(result);
-      },
-      (error) => {
-        setIsLoaded(true);
-        setError(error);
-        console.log(error);
       }
-    );
-  }, [context.data]);
+    });
+  }, [context.data, props.history]);
 
-  if (error) {
-    return <div>Error: Marko</div>;
-  } else if (!isLoaded) {
+  if (!isLoaded) {
     return <div>Loading...</div>;
   } else {
     return (

@@ -25,7 +25,6 @@ router.get(
         },
       ],
     });
-    // throw new Error(500).end();
     res.status(200).json(courses);
   })
 );

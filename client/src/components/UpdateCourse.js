@@ -21,14 +21,16 @@ const UpdateCourse = (props) => {
 
   const getRequestedCourse = useCallback(() => {
     const courseId = getCourseIdFromBrowser();
-    context.data.getCourse(courseId).then((course) => {
-      if (course) {
-        if (authUser.id === course.userId) {
-          setCourse(course);
-          setCourseTitle(course.title);
-          setCourseDescription(course.description);
-          setEstimatedTime(course.estimatedTime);
-          setMaterialsNeeded(course.materialsNeeded);
+    context.data.getCourse(courseId).then((data) => {
+      if (data) {
+        if (data.message == 500) {
+          props.history.push("/error");
+        } else if (authUser.id === data.userId) {
+          setCourse(data);
+          setCourseTitle(data.title);
+          setCourseDescription(data.description);
+          setEstimatedTime(data.estimatedTime);
+          setMaterialsNeeded(data.materialsNeeded);
         } else {
           props.history.push("/forbidden");
         }

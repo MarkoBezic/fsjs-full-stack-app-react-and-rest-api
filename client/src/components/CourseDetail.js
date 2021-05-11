@@ -19,20 +19,16 @@ const CourseDetail = (props) => {
 
   useEffect(() => {
     const idFromBrowserAddressBar = getCourseIdFromBrowserAddressBar();
-    context.data.getCourse(idFromBrowserAddressBar).then(
-      (result) => {
+    context.data.getCourse(idFromBrowserAddressBar).then((result) => {
+      if (result.message == 500) {
+        props.history.push("/error");
+      } else if (result) {
         setIsLoaded(true);
-        if (result) {
-          setCourse(result);
-        } else {
-          props.history.push("/notfound");
-        }
-      },
-      (error) => {
-        setIsLoaded(true);
-        setError(error);
+        setCourse(result);
+      } else {
+        props.history.push("/notfound");
       }
-    );
+    });
   }, [getCourseIdFromBrowserAddressBar, props.history, context.data]);
 
   const deleteCourse = () => {
