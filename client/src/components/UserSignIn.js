@@ -23,6 +23,8 @@ const UserSignIn = (props) => {
     const { from } = props.location.state || {
       from: { pathname: "/" },
     };
+
+    //Sign in user based on provided credentials
     context.actions
       .signIn(emailAddress, password)
       .then((user) => {

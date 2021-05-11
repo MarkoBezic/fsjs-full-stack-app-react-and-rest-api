@@ -16,6 +16,7 @@ import UnhandledError from "./components/UnhandledError";
 import withContext from "./Context";
 import PrivateRoute from "./components/PrivateRoute";
 
+//Components consuming data from context
 const CoursesWithContext = withContext(Courses);
 const HeaderWithContext = withContext(Header);
 const CourseDetailWithContext = withContext(CourseDetail);

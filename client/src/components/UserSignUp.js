@@ -29,6 +29,7 @@ const UserSignUp = (props) => {
   };
 
   const submit = () => {
+    // user object to send to POST to the database
     const user = {
       firstName,
       lastName,
@@ -37,6 +38,7 @@ const UserSignUp = (props) => {
       password,
     };
 
+    // create new user based on information provided in the user object
     context.data
       .createUser(user)
       .then((errors) => {

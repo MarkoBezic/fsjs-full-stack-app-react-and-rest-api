@@ -8,6 +8,7 @@ const Courses = (props) => {
   const [courses, setCourses] = useState([]);
 
   useEffect(() => {
+    // Get current list of courses from the DB
     context.data.getCourses().then((result) => {
       if (result.message == 500) {
         props.history.push("/error");

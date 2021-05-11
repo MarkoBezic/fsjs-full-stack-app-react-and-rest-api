@@ -12,6 +12,7 @@ const UpdateCourse = (props) => {
   const [estimatedTime, setEstimatedTime] = useState("");
   const [materialsNeeded, setMaterialsNeeded] = useState("");
 
+  // Get course ID from the url
   const getCourseIdFromBrowser = useCallback(() => {
     const url = props.location.pathname;
     const idFromUrl = url.substring(9, url.length - 7);
@@ -19,6 +20,7 @@ const UpdateCourse = (props) => {
     return result;
   }, [props.location.pathname]);
 
+  // Get the course info that is associated with the ID that was pulled form the browser
   const getRequestedCourse = useCallback(() => {
     const courseId = getCourseIdFromBrowser();
     context.data.getCourse(courseId).then((data) => {
@@ -68,6 +70,7 @@ const UpdateCourse = (props) => {
     const { password } = context;
     const courseId = course.id;
 
+    // courseUpdated object to provide the updated information to the PUT request
     const courseUpdated = {
       id: courseId,
       title: courseTitle,
@@ -77,6 +80,7 @@ const UpdateCourse = (props) => {
       userId: id,
     };
 
+    //Updated course based on new information provided in the courseUpdated object
     context.data
       .updateCourse(courseUpdated, emailAddress, password)
       .then((errors) => {

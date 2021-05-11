@@ -10,6 +10,7 @@ const CourseDetail = (props) => {
   const { context } = props;
   const authUser = context.authenticatedUser;
 
+  // Pull course id from url
   const getCourseIdFromBrowserAddressBar = useCallback(() => {
     const url = props.history.location.pathname;
     const idFromUrl = url.split("").splice(9).join("");
@@ -18,6 +19,7 @@ const CourseDetail = (props) => {
   }, [props.history.location.pathname]);
 
   useEffect(() => {
+    // Get requested course from db based on provided id
     const idFromBrowserAddressBar = getCourseIdFromBrowserAddressBar();
     context.data.getCourse(idFromBrowserAddressBar).then((result) => {
       if (result.message == 500) {
@@ -31,6 +33,7 @@ const CourseDetail = (props) => {
     });
   }, [getCourseIdFromBrowserAddressBar, props.history, context.data]);
 
+  // Delete course
   const deleteCourse = () => {
     const { context } = props;
 
@@ -54,6 +57,7 @@ const CourseDetail = (props) => {
       <>
         <div className="actions--bar">
           <div className="wrap">
+            {/* If current logged in user is the owner of the course being viewd display the UPDATED COURSE and DELETE COURSE button */}
             {authUser && authUser.id === course.userId ? (
               <>
                 <Link className="button" to={`/courses/${course.id}/update`}>
