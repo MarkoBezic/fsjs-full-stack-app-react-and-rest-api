@@ -10,6 +10,7 @@ const Courses = (props) => {
   useEffect(() => {
     // Get current list of courses from the DB
     context.data.getCourses().then((result) => {
+      // eslint-disable-next-line eqeqeq
       if (result.message == 500) {
         props.history.push("/error");
       } else {

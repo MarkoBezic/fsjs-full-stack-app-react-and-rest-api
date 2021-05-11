@@ -35,6 +35,7 @@ const CreateCourse = (props) => {
           setErrors(errors);
         } else {
           console.log(`${course.title} has successfully been created!`);
+          props.history.push("/");
         }
       })
       .catch((err) => {

@@ -25,6 +25,7 @@ const UpdateCourse = (props) => {
     const courseId = getCourseIdFromBrowser();
     context.data.getCourse(courseId).then((data) => {
       if (data) {
+        // eslint-disable-next-line eqeqeq
         if (data.message == 500) {
           props.history.push("/error");
         } else if (authUser.id === data.userId) {

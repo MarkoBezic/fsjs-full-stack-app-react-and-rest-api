@@ -22,11 +22,14 @@ const CourseDetail = (props) => {
     // Get requested course from db based on provided id
     const idFromBrowserAddressBar = getCourseIdFromBrowserAddressBar();
     context.data.getCourse(idFromBrowserAddressBar).then((result) => {
-      if (result.message == 500) {
-        props.history.push("/error");
-      } else if (result) {
-        setIsLoaded(true);
-        setCourse(result);
+      if (result) {
+        // eslint-disable-next-line eqeqeq
+        if (result.message == 500) {
+          props.history.push("/error");
+        } else {
+          setIsLoaded(true);
+          setCourse(result);
+        }
       } else {
         props.history.push("/notfound");
       }
