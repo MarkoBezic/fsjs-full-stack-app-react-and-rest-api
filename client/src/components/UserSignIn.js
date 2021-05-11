@@ -21,7 +21,7 @@ const UserSignIn = (props) => {
   const submit = () => {
     const { context } = props;
     const { from } = props.location.state || {
-      from: { pathname: "/authenticated" },
+      from: { pathname: "/" },
     };
     context.actions
       .signIn(emailAddress, password)

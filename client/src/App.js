@@ -12,7 +12,6 @@ import UserSignUp from "./components/UserSignUp";
 import NotFound from "./components/NotFound";
 import Forbidden from "./components/Forbidden";
 import UnhandledError from "./components/UnhandledError";
-import Authenticated from "./components/Authenticated";
 
 import withContext from "./Context";
 import PrivateRoute from "./components/PrivateRoute";
@@ -25,7 +24,6 @@ const UserSignInWithContext = withContext(UserSignIn);
 const UserSignOutWithContext = withContext(UserSignOut);
 const CreateCourseWithContext = withContext(CreateCourse);
 const UpdateCourseWithContext = withContext(UpdateCourse);
-const AuthWithContext = withContext(Authenticated);
 
 function App() {
   return (
@@ -47,7 +45,6 @@ function App() {
           <Route path="/signin" component={UserSignInWithContext} />
           <Route path="/signup" component={UserSignUpWithContext} />
           <Route path="/signout" component={UserSignOutWithContext} />
-          <PrivateRoute path="/authenticated" component={AuthWithContext} />
           <Route path="/notfound" component={NotFound} />
           <Route path="/forbidden" component={Forbidden} />
           <Route path="/error" component={UnhandledError} />

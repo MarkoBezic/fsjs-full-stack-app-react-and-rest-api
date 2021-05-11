@@ -57,7 +57,7 @@ const UserSignUp = (props) => {
 
   const signInUser = () => {
     context.actions.signIn(emailAddress, password).then(() => {
-      props.history.push("/authenticated");
+      props.history.push("/");
       console.log(`SUCCESS! ${emailAddress} is now signed in!`);
     });
   };
