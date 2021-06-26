@@ -9,12 +9,6 @@ const cors = require("cors");
 const coursesRouter = require("./routes/courses");
 const usersRouter = require("./routes/users");
 
-//serve react app
-app.use(express.static(path.join(__dirname, "build")));
-app.get("/*", (req, res) => {
-  res.sendFile(path.join(__dirname, "build", "index.html"));
-});
-
 // variable to enable global error logging
 const enableGlobalErrorLogging =
   process.env.ENABLE_GLOBAL_ERROR_LOGGING === "true";
