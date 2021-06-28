@@ -10,7 +10,7 @@ const coursesRouter = require("./routes/courses");
 const usersRouter = require("./routes/users");
 
 // variable to enable global error logging
-const enableGlobalErrorLogging =
+const enableGlobalErrorLogging
   process.env.ENABLE_GLOBAL_ERROR_LOGGING === "true";
 
 // create the Express app
@@ -69,3 +69,5 @@ app.set("port", process.env.PORT || 5000);
 const server = app.listen(app.get("port"), () => {
   console.log(`Express server is listening on port ${server.address().port}`);
 });
+
+//creating new branch//
