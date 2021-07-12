@@ -6,6 +6,8 @@ const morgan = require("morgan");
 const db = require("./models");
 const cors = require("cors");
 
+const path = require("path");
+
 const coursesRouter = require("./routes/courses");
 const usersRouter = require("./routes/users");
 
@@ -21,6 +23,13 @@ app.use(cors());
 
 // setup morgan which gives us http request logging
 app.use(morgan("dev"));
+
+// serve static files from build folder
+// app.use(express.static(path.join(__dirname, "build")));
+
+// app.get("/*", (req, res) => {
+//   res.sendFile(path.join(__dirname, "build", "index.html"));
+// });
 
 // Add routes.
 app.use("/api", coursesRouter);
@@ -69,5 +78,3 @@ app.set("port", process.env.PORT || 5000);
 const server = app.listen(app.get("port"), () => {
   console.log(`Express server is listening on port ${server.address().port}`);
 });
-
-//creating new branch//
